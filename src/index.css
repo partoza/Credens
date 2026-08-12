@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-white dark:bg-black text-black dark:text-white antialiased font-sans overflow-x-hidden transition-colors duration-300;
+  }
+}
