@@ -58,7 +58,7 @@ export default function Login() {
       </Link>
 
       {/* Left Panel (Branding / Visual) */}
-      <div className="hidden md:flex flex-col justify-between w-1/2 bg-gray-50 dark:bg-[#050505] text-black dark:text-white p-12 lg:p-16 relative overflow-hidden min-h-screen fixed top-0 left-0 transition-colors duration-300">
+      <div className="hidden md:flex flex-col justify-between w-1/2 bg-[#050505] dark:bg-gray-50 text-white dark:text-black p-12 lg:p-16 relative overflow-hidden min-h-screen fixed top-0 left-0 transition-colors duration-300">
         
         {/* Large Decorative Icon / Illustration (Rotating) */}
         <div className="absolute -top-[50px] -right-[100px] md:-top-[30px] md:-right-[60px] lg:-top-[50px] lg:-right-[100px] xl:-top-[200px] xl:-right-[350px] w-[300px] h-[300px] md:w-[350px] md:h-[350px] lg:w-[450px] lg:h-[450px] xl:w-[1000px] xl:h-[1000px] pointer-events-none animate-[swing-logo_20s_ease-in-out_infinite]">
@@ -66,8 +66,8 @@ export default function Login() {
         </div>
 
         {/* Abstract Background Elements */}
-        <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-black/5 dark:bg-white/5 rounded-full blur-3xl pointer-events-none transition-colors duration-300"></div>
-        <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-black/5 dark:bg-white/5 rounded-full blur-3xl pointer-events-none transition-colors duration-300"></div>
+        <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-white/5 dark:bg-black/5 rounded-full blur-3xl pointer-events-none transition-colors duration-300"></div>
+        <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-white/5 dark:bg-black/5 rounded-full blur-3xl pointer-events-none transition-colors duration-300"></div>
 
         <div className="relative z-10">
           <Link to="/" className="inline-block hover:opacity-80 transition-opacity">
@@ -76,14 +76,14 @@ export default function Login() {
         </div>
 
         <div className="relative z-10 max-w-lg mt-20">
-          <h1 className="text-5xl lg:text-[64px] font-medium tracking-tighter text-black dark:text-white mb-6 leading-[1.1] transition-colors duration-300">
+          <h1 className="text-5xl lg:text-[64px] font-medium tracking-tighter text-white dark:text-black mb-6 leading-[1.1] transition-colors duration-300">
             Your professional<br />identity, verified.
           </h1>
-          <p className="text-[17px] text-gray-600 dark:text-white/60 font-medium leading-relaxed max-w-md mb-8 transition-colors duration-300">
+          <p className="text-[17px] text-white/60 dark:text-gray-600 font-medium leading-relaxed max-w-md mb-8 transition-colors duration-300">
             Sign in to your Credens workspace to manage your digital portfolio, update your professional details, and track your NFC card interactions.
           </p>
           
-          <Link to="/" className="group inline-flex items-center gap-2 py-2 text-[14px] font-medium text-gray-600 hover:text-black dark:text-white/80 dark:hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer">
+          <Link to="/" className="group inline-flex items-center gap-2 py-2 text-[14px] font-medium text-white/80 hover:text-white dark:text-gray-600 dark:hover:text-black transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer">
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
             Back to Home
           </Link>
@@ -93,32 +93,32 @@ export default function Login() {
           <div className="flex flex-col items-start gap-4">
             {/* Theme Toggle */}
             <div className="flex flex-col items-start gap-2">
-              <span className="text-[11px] font-bold tracking-[0.2em] text-gray-400 dark:text-gray-500 uppercase">THEME</span>
-              <div className="flex items-center bg-gray-200/50 dark:bg-white/5 rounded-full p-1 border border-gray-200 dark:border-white/10 transition-colors duration-300">
+              <span className="text-[11px] font-bold tracking-[0.2em] text-gray-500 dark:text-gray-400 uppercase">THEME</span>
+              <div className="flex items-center bg-white/5 dark:bg-gray-200/50 rounded-full p-1 border border-white/10 dark:border-gray-200 transition-colors duration-300">
                 <button
                   onClick={() => setTheme('system')}
-                  className={`p-1.5 rounded-full transition-all cursor-pointer ${theme === 'system' ? 'bg-white dark:bg-white/10 shadow-sm text-black dark:text-white' : 'text-gray-500 hover:text-gray-900 dark:text-white/40 dark:hover:text-white/80'}`}
+                  className={`p-1.5 rounded-full transition-all cursor-pointer ${theme === 'system' ? 'bg-white/10 dark:bg-white dark:shadow-sm text-white dark:text-black' : 'text-white/40 hover:text-white/80 dark:text-gray-500 dark:hover:text-gray-900'}`}
                   title="System Theme"
                 >
                   <ComputerDesktopIcon className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setTheme('light')}
-                  className={`p-1.5 rounded-full transition-all cursor-pointer ${theme === 'light' ? 'bg-white dark:bg-white/10 shadow-sm text-black dark:text-white' : 'text-gray-500 hover:text-gray-900 dark:text-white/40 dark:hover:text-white/80'}`}
+                  className={`p-1.5 rounded-full transition-all cursor-pointer ${theme === 'light' ? 'bg-white/10 dark:bg-white dark:shadow-sm text-white dark:text-black' : 'text-white/40 hover:text-white/80 dark:text-gray-500 dark:hover:text-gray-900'}`}
                   title="Light Theme"
                 >
                   <SunIcon className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setTheme('dark')}
-                  className={`p-1.5 rounded-full transition-all cursor-pointer ${theme === 'dark' ? 'bg-white dark:bg-white/10 shadow-sm text-black dark:text-white' : 'text-gray-500 hover:text-gray-900 dark:text-white/40 dark:hover:text-white/80'}`}
+                  className={`p-1.5 rounded-full transition-all cursor-pointer ${theme === 'dark' ? 'bg-white/10 dark:bg-white dark:shadow-sm text-white dark:text-black' : 'text-white/40 hover:text-white/80 dark:text-gray-500 dark:hover:text-gray-900'}`}
                   title="Dark Theme"
                 >
                   <MoonIcon className="w-4 h-4" />
                 </button>
               </div>
             </div>
-            <div className="text-[13px] text-gray-500 dark:text-white/40 font-medium transition-colors duration-300">
+            <div className="text-[13px] text-white/40 dark:text-gray-500 font-medium transition-colors duration-300">
               © {new Date().getFullYear()} Credens. All rights reserved.
             </div>
           </div>
