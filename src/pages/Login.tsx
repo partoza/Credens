@@ -61,7 +61,7 @@ export default function Login() {
       <div className="hidden md:flex flex-col justify-between w-1/2 bg-[#050505] dark:bg-gray-50 text-white dark:text-black p-12 lg:p-16 relative overflow-hidden min-h-screen fixed top-0 left-0 transition-colors duration-300">
         
         {/* Large Decorative Icon / Illustration (Rotating) */}
-        <div className="absolute -top-[50px] -right-[100px] md:-top-[30px] md:-right-[60px] lg:-top-[50px] lg:-right-[100px] xl:-top-[200px] xl:-right-[350px] w-[300px] h-[300px] md:w-[350px] md:h-[350px] lg:w-[450px] lg:h-[450px] xl:w-[1000px] xl:h-[1000px] pointer-events-none animate-[swing-logo_20s_ease-in-out_infinite]">
+        <div className="hidden min-[1440px]:block absolute -top-[50px] -right-[100px] md:-top-[30px] md:-right-[60px] lg:-top-[50px] lg:-right-[100px] xl:-top-[200px] xl:-right-[350px] w-[300px] h-[300px] md:w-[350px] md:h-[350px] lg:w-[450px] lg:h-[450px] xl:w-[1000px] xl:h-[1000px] pointer-events-none animate-[swing-logo_20s_ease-in-out_infinite]">
           <img src={isDark ? "/logo/logo-black.png" : "/logo/logo.png"} alt="Credens Background Logo" className="w-full h-full object-contain" />
         </div>
 
