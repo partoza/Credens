@@ -1,4 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import AboutPage from './pages/About';
+import LoginPage from './pages/Login';
 import { LayoutDashboard, Paintbrush, Briefcase, Nfc, ChevronRight, Mail, Quote, Code, Camera, Play, Trophy } from 'lucide-react';
 import { SunIcon, MoonIcon, ComputerDesktopIcon } from '@heroicons/react/24/solid';
 
@@ -152,8 +155,8 @@ const FeatureKey = ({ icon, title, desc, width = "w-[240px]", delay = 0 }: any) 
         {icon}
       </div>
       <div className="relative z-10 leading-snug">
-        <div className="text-[14px] font-semibold text-black dark:text-[#f4f4f5]">{title}</div>
-        <div className="text-[13px] text-gray-500 dark:text-[#8a8f98]">{desc}</div>
+        <div className="text-[15px] sm:text-[16px] font-semibold text-black dark:text-[#f4f4f5]">{title}</div>
+        <div className="text-[13px] sm:text-[14px] text-gray-500 dark:text-[#8a8f98]">{desc}</div>
       </div>
     </div>
   );
@@ -175,14 +178,14 @@ const WidgetWrapper = ({ children, delay = 0, width = "w-[240px]" }: any) => {
 const TestimonialWidget = () => (
   <div className="bg-white dark:bg-[#111111] rounded-[14px] p-4 border border-black/10 dark:border-white/10 shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-none flex flex-col hover:border-black/20 transition-colors">
     <Quote className="w-5 h-5 text-gray-200 dark:text-gray-800 mb-2 fill-current" />
-    <p className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed mb-3 flex-1 font-medium">
+    <p className="text-[12px] sm:text-[13px] text-gray-600 dark:text-gray-400 leading-relaxed mb-3 flex-1 font-medium">
       Juan was exceptional in developing our software solution. He grasped the complex requirements instantly and delivered a reliable, highly optimized product. I highly recommend him for any software development needs.
     </p>
     <div className="border-t border-gray-100 dark:border-gray-800 pt-3 flex items-center gap-2.5">
-      <div className="w-7 h-7 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-[9px] font-bold text-gray-600 dark:text-gray-300">JD</div>
+      <div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-[10px] font-bold text-gray-600 dark:text-gray-300">JD</div>
       <div>
-        <div className="text-[11px] font-bold text-black dark:text-white leading-tight mb-0.5">John Doe</div>
-        <div className="text-[9px] text-gray-500 font-mono">Software Developer</div>
+        <div className="text-[13px] sm:text-[14px] font-bold text-black dark:text-white leading-tight mb-0.5">John Doe</div>
+        <div className="text-[10px] sm:text-[11px] text-gray-500 font-mono">Software Developer</div>
       </div>
     </div>
   </div>
@@ -190,7 +193,7 @@ const TestimonialWidget = () => (
 
 const ProjectWidget = () => (
   <div className="bg-white dark:bg-[#111111] rounded-[14px] p-4 border border-black/10 dark:border-white/10 shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-none flex flex-col h-full hover:border-black/20 transition-colors">
-    <div className="flex justify-between items-center text-[8px] font-bold text-gray-400 tracking-wider mb-3 uppercase">
+    <div className="flex justify-between items-center text-[10px] sm:text-[11px] font-bold text-gray-400 tracking-wider mb-3 uppercase">
       <span>Mobile Application</span>
       <span>2025</span>
     </div>
@@ -198,13 +201,13 @@ const ProjectWidget = () => (
       <div className="w-8 h-8 bg-red-50 dark:bg-red-900/20 rounded-lg flex items-center justify-center text-red-600 border border-red-100 dark:border-red-900/30">
         <LayoutDashboard className="w-4 h-4" />
       </div>
-      <h3 className="text-lg font-bold text-black dark:text-white tracking-tight">UniMind</h3>
+      <h3 className="text-[18px] sm:text-[20px] font-bold text-black dark:text-white tracking-tight">UniMind</h3>
     </div>
-    <p className="text-[11px] text-gray-600 dark:text-gray-400 mb-4 leading-relaxed font-medium">
+    <p className="text-[12px] sm:text-[13px] text-gray-600 dark:text-gray-400 mb-4 leading-relaxed font-medium">
       A peer-to-peer study mobile application designed to connect learners across university.
     </p>
     <div className="flex justify-between items-center mt-auto">
-      <div className="text-[9px] font-medium text-gray-800 dark:text-gray-300 font-mono">
+      <div className="text-[10px] sm:text-[11px] font-medium text-gray-800 dark:text-gray-300 font-mono">
         Flutter Firebase
       </div>
       <div className="w-5 h-5 rounded-full border border-gray-200 dark:border-gray-800 flex items-center justify-center">
@@ -221,10 +224,10 @@ const CertificateWidget = () => (
        <img src="/cer-sample-dark.png" alt="Certificate Dark" className="w-full h-full object-cover hidden dark:block" />
     </div>
     <div>
-      <h3 className="text-[12px] font-bold text-black dark:text-white leading-tight mb-1">
+      <h3 className="text-[14px] sm:text-[15px] font-bold text-black dark:text-white leading-tight mb-1">
         IT Specialist
       </h3>
-      <div className="text-[8px] font-bold text-gray-400 tracking-wider uppercase leading-snug">
+      <div className="text-[9px] sm:text-[10px] font-bold text-gray-400 tracking-wider uppercase leading-snug">
         PEARSON VUE / CERTNEXUS
       </div>
     </div>
@@ -234,9 +237,9 @@ const CertificateWidget = () => (
 const SkillsWidget = () => (
   <div className="flex flex-wrap gap-1.5">
     {['HTML5', 'CSS3', 'JavaScript', 'React', 'Tailwind', 'Photoshop', 'Canva', 'Figma'].map(skill => (
-      <div key={skill} className="bg-white dark:bg-[#111111] border border-black/10 dark:border-white/10 rounded-full px-2.5 py-1 flex items-center gap-1.5 shadow-sm">
+      <div key={skill} className="bg-white dark:bg-[#111111] border border-black/10 dark:border-white/10 rounded-full px-2.5 py-1.5 flex items-center gap-1.5 shadow-sm">
         <div className="w-2.5 h-2.5 bg-gray-200 dark:bg-gray-700 rounded-sm"></div>
-        <span className="text-[10px] font-bold text-gray-600 dark:text-gray-300">{skill}</span>
+        <span className="text-[11px] sm:text-[12px] font-bold text-gray-600 dark:text-gray-300">{skill}</span>
       </div>
     ))}
   </div>
@@ -244,17 +247,17 @@ const SkillsWidget = () => (
 
 const LinksWidget = () => (
   <div className="bg-white dark:bg-[#111111] rounded-[14px] p-4 border border-black/10 dark:border-white/10 shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-none flex flex-col hover:border-black/20 transition-colors">
-    <div className="text-[9px] font-bold text-gray-400 tracking-wider mb-3 uppercase">Direct Connect</div>
-    <div className="grid grid-cols-2 gap-1.5">
+    <div className="text-[10px] sm:text-[11px] font-bold text-gray-400 tracking-wider mb-3 uppercase">Direct Connect</div>
+    <div className="grid grid-cols-2 gap-2">
       {[
         { icon: Mail, text: "Email Rex" },
         { icon: Briefcase, text: "LinkedIn" },
         { icon: Code, text: "GitHub" },
         { icon: Camera, text: "Instagram" }
       ].map((link, i) => (
-        <div key={i} className="bg-gray-50 dark:bg-[#1a1a1a] border border-black/5 dark:border-white/5 rounded-md p-2 flex items-center gap-1.5">
-          <link.icon className="w-3 h-3 text-black dark:text-white" />
-          <span className="text-[10px] font-semibold text-black dark:text-white flex-1">{link.text}</span>
+        <div key={i} className="bg-gray-50 dark:bg-[#1a1a1a] border border-black/5 dark:border-white/5 rounded-md p-2.5 flex items-center gap-1.5">
+          <link.icon className="w-3.5 h-3.5 text-black dark:text-white" />
+          <span className="text-[11px] sm:text-[12px] font-semibold text-black dark:text-white flex-1">{link.text}</span>
         </div>
       ))}
     </div>
@@ -263,21 +266,21 @@ const LinksWidget = () => (
 
 const ExperienceWidget = () => (
   <div className="bg-white dark:bg-[#111111] rounded-[14px] p-4 border border-black/10 dark:border-white/10 shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-none flex flex-col hover:border-black/20 transition-colors h-full justify-center">
-    <div className="flex justify-between items-start mb-3">
+    <div className="flex justify-between items-start mb-4">
       <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400 border border-blue-100 dark:border-blue-900/30">
         <Briefcase className="w-4 h-4" />
       </div>
-      <div className="text-[9px] font-bold text-gray-500 dark:text-gray-400 tracking-wider uppercase bg-gray-50 dark:bg-white/5 px-2 py-1 rounded-md border border-black/5 dark:border-white/5">
+      <div className="text-[10px] sm:text-[11px] font-bold text-gray-500 dark:text-gray-400 tracking-wider uppercase bg-gray-50 dark:bg-white/5 px-2.5 py-1 rounded-md border border-black/5 dark:border-white/5">
         2023 - Present
       </div>
     </div>
-    <h3 className="text-[13px] font-bold text-black dark:text-white leading-tight mb-1">
+    <h3 className="text-[14px] sm:text-[16px] font-bold text-black dark:text-white leading-tight mb-1">
       Senior Software Engineer
     </h3>
-    <div className="text-[10px] font-medium text-blue-600 dark:text-blue-400 mb-2">
+    <div className="text-[11px] sm:text-[12px] font-medium text-blue-600 dark:text-blue-400 mb-2">
       Tech Innovators Inc.
     </div>
-    <p className="text-[10px] text-gray-500 dark:text-gray-400 leading-relaxed">
+    <p className="text-[11px] sm:text-[13px] text-gray-500 dark:text-gray-400 leading-relaxed">
       Led the frontend development team in building highly scalable React applications and design systems.
     </p>
   </div>
@@ -286,12 +289,12 @@ const ExperienceWidget = () => (
 const AwardWidget = () => (
   <div className="bg-white dark:bg-[#111111] rounded-[14px] p-4 border border-black/10 dark:border-white/10 shadow-[0_4px_20px_rgb(0,0,0,0.03)] dark:shadow-none flex flex-col h-full hover:border-black/20 transition-colors justify-center">
     <div className="flex items-center gap-3 mb-2">
-      <div className="w-8 h-8 rounded-full bg-yellow-50 dark:bg-yellow-900/20 flex items-center justify-center text-yellow-600 border border-yellow-100 dark:border-yellow-900/30">
-        <Trophy className="w-4 h-4" />
+      <div className="w-10 h-10 rounded-full bg-yellow-50 dark:bg-yellow-900/20 flex items-center justify-center text-yellow-600 border border-yellow-100 dark:border-yellow-900/30">
+        <Trophy className="w-5 h-5" />
       </div>
       <div>
-        <div className="text-[11px] font-bold text-black dark:text-white">Best UI Design</div>
-        <div className="text-[9px] text-gray-500">Awwwards 2024</div>
+        <div className="text-[13px] sm:text-[14px] font-bold text-black dark:text-white">Best UI Design</div>
+        <div className="text-[10px] sm:text-[11px] text-gray-500">Awwwards 2024</div>
       </div>
     </div>
   </div>
@@ -299,6 +302,7 @@ const AwardWidget = () => (
 
 function App() {
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'system');
 
   useEffect(() => {
@@ -341,16 +345,19 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black text-black dark:text-white selection:bg-black/10 dark:selection:bg-white/30 font-sans pb-16 transition-colors duration-300">
+    <BrowserRouter>
+      <div className="min-h-screen bg-white dark:bg-[#0a0a0a] text-black dark:text-white font-sans selection:bg-black/10 dark:selection:bg-white/10 overflow-x-hidden flex flex-col">
       
       {/* Navigation (super minimal) */}
       <header className="sticky top-0 z-50 w-full bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-md border-b border-black/5 dark:border-white/5">
         <nav className="flex items-center justify-between px-6 py-4 md:px-12 max-w-7xl mx-auto">
         <div className="flex items-center gap-2">
-          <img src={isDark ? "/logo/logo2-white.png" : "/logo/logo2-black.png"} alt="Credens" className="h-7 w-auto object-contain" />
+          <Link to="/">
+            <img src={isDark ? "/logo/logo2-white.png" : "/logo/logo2-black.png"} alt="Credens" className="h-7 w-auto object-contain" />
+          </Link>
         </div>
         <div className="hidden md:flex items-center gap-6 text-sm text-gray-500 dark:text-[#8a8f98] font-medium">
-          <a href="#" className="hover:text-black dark:hover:text-white transition-colors">About</a>
+          <Link to="/about" className="hover:text-black dark:hover:text-white transition-colors">About</Link>
           <a href="#" className="hover:text-black dark:hover:text-white transition-colors">FAQ's</a>
           <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Pricing</a>
           <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Contact</a>
@@ -359,8 +366,9 @@ function App() {
           {/* Theme Dropdown */}
           <div className="relative">
             <button 
+              title="Toggle Theme"
               onClick={() => setThemeDropdownOpen(!themeDropdownOpen)}
-              className="flex items-center gap-1.5 text-[13px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors"
+              className="flex items-center gap-1.5 text-[13px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors cursor-pointer"
             >
               {theme === 'dark' ? <MoonIcon className="w-4 h-4" /> : theme === 'light' ? <SunIcon className="w-4 h-4" /> : <ComputerDesktopIcon className="w-4 h-4" />}
               <span className="hidden sm:inline capitalize">{theme}</span>
@@ -381,25 +389,58 @@ function App() {
             )}
           </div>
 
-          <div className="flex items-center gap-3 pl-2 border-l border-black/10 dark:border-white/10">
-            <a href="#" className="text-[14px] font-medium bg-gray-100 dark:bg-white border border-gray-200 text-black px-4 py-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-50 transition-colors hidden sm:block shadow-sm">Log In</a>
+          <div className="hidden md:flex items-center gap-3 pl-2 border-l border-black/10 dark:border-white/10">
+            <Link to="/login" className="text-[14px] font-medium bg-gray-100 dark:bg-white border border-gray-200 text-black px-4 py-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-50 transition-colors shadow-sm">Log In</Link>
             <a href="#" className="text-[14px] font-medium bg-black dark:bg-[#111111] text-white border border-black/10 dark:border-white/10 px-4 py-1.5 rounded-md hover:bg-gray-800 dark:hover:bg-[#1a1a1a] transition-colors shadow-sm">Sign Up</a>
           </div>
+
+          {/* Mobile Hamburger Menu */}
+          <button 
+            title={mobileMenuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden flex items-center justify-center p-1.5 text-gray-500 hover:text-black dark:text-[#8a8f98] dark:hover:text-white transition-colors ml-1 cursor-pointer"
+          >
+            {mobileMenuOpen ? (
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
+              </svg>
+            )}
+          </button>
         </div>
       </nav>
+      
+      {/* Mobile Menu Dropdown */}
+      {mobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-[#0a0a0a] border-b border-black/5 dark:border-white/5 py-5 px-6 flex flex-col gap-4 shadow-xl z-50">
+          <Link to="/about" className="text-[15px] font-medium text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-white transition-colors" onClick={() => setMobileMenuOpen(false)}>About</Link>
+          <a href="#" className="text-[15px] font-medium text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-white transition-colors" onClick={() => setMobileMenuOpen(false)}>FAQ's</a>
+          <a href="#" className="text-[15px] font-medium text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-white transition-colors" onClick={() => setMobileMenuOpen(false)}>Pricing</a>
+          <a href="#" className="text-[15px] font-medium text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-white transition-colors" onClick={() => setMobileMenuOpen(false)}>Contact</a>
+          <div className="h-[1px] w-full bg-black/5 dark:bg-white/5 my-1"></div>
+          <Link to="/login" className="text-[15px] font-medium bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-black dark:text-white text-center py-2.5 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition-colors" onClick={() => setMobileMenuOpen(false)}>Log In</Link>
+          <a href="#" className="text-[15px] font-medium bg-black dark:bg-[#f4f4f5] text-white dark:text-black text-center py-2.5 rounded-lg hover:bg-gray-800 dark:hover:bg-white transition-colors shadow-sm" onClick={() => setMobileMenuOpen(false)}>Sign Up</a>
+        </div>
+      )}
       </header>
 
-      {/* Hero Section */}
-      <main className="flex flex-col items-center pt-16 md:pt-24 px-6 md:px-12">
+      <Routes>
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={
+          <main className="flex flex-col items-center pt-10 md:pt-16 px-6 md:px-12">
         <div className="w-full max-w-7xl">
           
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 w-full items-center mb-24 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 w-full items-center mb-16 mt-4">
             {/* Left: Heading & Buttons */}
             <div className="flex flex-col md:col-span-7">
-              <h1 className="text-5xl md:text-[4.5rem] leading-[1.05] font-medium tracking-tighter text-gray-900 dark:text-[#f4f4f5] mb-5">
-                Your professional<br />identity, verified.
+              <h1 className="text-4xl sm:text-5xl md:text-[4.5rem] leading-[1.1] md:leading-[1.05] font-medium tracking-tighter text-gray-900 dark:text-[#f4f4f5] mb-5">
+                Your professional<br className="hidden sm:block" /> identity, verified.
               </h1>
-              <p className="text-[17px] md:text-[19px] text-gray-500 dark:text-[#8a8f98] font-medium leading-snug mb-8 max-w-xl">
+              <p className="text-[16px] sm:text-[17px] md:text-[19px] text-gray-500 dark:text-[#8a8f98] font-medium leading-relaxed sm:leading-snug mb-8 max-w-xl">
                 Credens is a professional identity platform where users can create and manage a digital portfolio with a personalized NFC Card
               </p>
               <div className="flex items-center gap-3">
@@ -454,7 +495,7 @@ function App() {
           </div>
 
           {/* App Mockup Section */}
-          <div className="w-full flex flex-col lg:flex-row-reverse items-center justify-between gap-8 lg:gap-0 py-16 mt-8 overflow-hidden border-t border-black/5 dark:border-white/5">
+          <div className="w-full flex flex-col lg:flex-row-reverse items-center justify-between gap-8 lg:gap-0 py-10 mt-4 overflow-hidden border-t border-black/5 dark:border-white/5">
             
             {/* Left Content (Text - visually on right) */}
             <div className="w-full lg:w-4/12 flex flex-col items-start lg:items-end text-left lg:text-right z-10">
@@ -502,7 +543,7 @@ function App() {
           </div>
 
             {/* Digital Card Section */}
-            <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-0 py-16 mt-8 overflow-hidden border-t border-black/5 dark:border-white/5">
+            <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-0 py-10 mt-4 overflow-hidden border-t border-black/5 dark:border-white/5">
               
               {/* Left Content (Text) */}
               <div className="w-full lg:w-1/2 flex flex-col items-start text-left z-10">
@@ -533,7 +574,7 @@ function App() {
             </div>
 
           {/* Keyboard Feature Section */}
-          <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-16 py-16 border-t border-black/5 dark:border-white/5 mt-16 overflow-hidden">
+          <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-10 py-10 border-t border-black/5 dark:border-white/5 mt-8 overflow-hidden">
             
             {/* Left Content */}
             <div className="w-full lg:w-5/12 flex flex-col items-start">
@@ -550,9 +591,40 @@ function App() {
               {/* Try Demo button removed per request */}
             </div>
 
-            {/* Right Keyboard Grid */}
-            <div className="w-full lg:w-7/12 relative flex lg:justify-end py-4" style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 85%, transparent 100%)' }}>
-              <div className="flex flex-row gap-4 min-w-[1200px] relative right-[-150px] lg:right-[-250px]">
+            {/* Mobile Feature Cards (Only on Mobile) */}
+            <div className="flex md:hidden relative flex-col justify-center gap-4 w-full items-center mt-4 py-8 overflow-hidden">
+              
+              {/* Mobile Background Widgets Layer */}
+              <div className="absolute inset-0 z-0 pointer-events-none flex flex-col justify-between" style={{ maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)' }}>
+                 <div className="absolute -top-10 -left-20 scale-[0.55]">
+                   <WidgetWrapper delay={50} width="w-[280px]"><TestimonialWidget /></WidgetWrapper>
+                 </div>
+                 <div className="absolute top-[15%] -right-24 scale-[0.55]">
+                   <WidgetWrapper delay={150} width="w-[240px]"><CertificateWidget /></WidgetWrapper>
+                 </div>
+                 <div className="absolute top-[40%] -left-24 scale-[0.6]">
+                   <WidgetWrapper delay={200} width="w-[280px]"><ExperienceWidget /></WidgetWrapper>
+                 </div>
+                 <div className="absolute bottom-[20%] -right-16 scale-[0.55]">
+                   <WidgetWrapper delay={250} width="w-[240px]"><ProjectWidget /></WidgetWrapper>
+                 </div>
+                 <div className="absolute -bottom-10 -left-10 scale-[0.55]">
+                   <WidgetWrapper delay={300} width="w-[240px]"><LinksWidget /></WidgetWrapper>
+                 </div>
+              </div>
+
+              {/* Foreground Focus Layer */}
+              <div className="relative z-10 flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 w-full items-center">
+                <FeatureKey delay={100} icon={<LayoutDashboard className="w-5 h-5" />} title="No-Code." desc="Zero coding required." width="w-[260px] sm:w-[240px]" />
+                <FeatureKey delay={200} icon={<Briefcase className="w-5 h-5" />} title="Ergonomic." desc="Professional design." width="w-[260px] sm:w-[240px]" />
+                <FeatureKey delay={300} icon={<Paintbrush className="w-5 h-5" />} title="Custom." desc="Design & content only." width="w-[260px] sm:w-[240px]" />
+                <FeatureKey delay={400} icon={<Nfc className="w-5 h-5" />} title="NFC Ready." desc="Tap to share." width="w-[260px] sm:w-[240px]" />
+              </div>
+            </div>
+
+            {/* Desktop Keyboard Grid */}
+            <div className="hidden md:flex w-full lg:w-7/12 relative justify-center lg:justify-end py-4" style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 85%, transparent 100%)' }}>
+              <div className="flex flex-row gap-6 min-w-[1200px] relative right-[-100px] lg:right-[-250px] scale-90 lg:scale-100 origin-right">
                 
                 {/* Column 1 (Left Background) */}
                 <div className="flex flex-col gap-4 pt-[80px]">
@@ -607,26 +679,59 @@ function App() {
           </div>
         </div>
       </main>
+      } />
+      </Routes>
 
       {/* Footer */}
-      <footer className="w-full max-w-7xl mx-auto px-6 md:px-12 py-12 mt-12 md:mt-20 border-t border-black/5 dark:border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 text-[14px] font-medium text-gray-500 dark:text-[#8a8f98]">
-        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
-           <img src={isDark ? "/logo/logo2-white.png" : "/logo/logo2-black.png"} alt="Credens" className="h-5 w-auto object-contain opacity-70" />
-           <span>© {new Date().getFullYear()} Credens. All rights reserved.</span>
-        </div>
-        <div className="flex items-center gap-5">
-          <div className="hidden sm:flex items-center gap-6 mr-4">
-            <a href="#" className="hover:text-black dark:hover:text-[#f4f4f5] transition-colors">About</a>
-            <a href="#" className="hover:text-black dark:hover:text-[#f4f4f5] transition-colors">FAQ's</a>
-            <a href="#" className="hover:text-black dark:hover:text-[#f4f4f5] transition-colors">Pricing</a>
-            <a href="#" className="hover:text-black dark:hover:text-[#f4f4f5] transition-colors">Contact</a>
+      <footer className="w-full max-w-7xl mx-auto px-6 md:px-12 py-12 mt-12 border-t border-black/5 dark:border-white/5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
+          
+          {/* Column 1: Brand & Founder */}
+          <div className="flex flex-col items-center md:items-start gap-4 col-span-1 text-center md:text-left">
+            <Link to="/">
+              <img src={isDark ? "/logo/logo2-white.png" : "/logo/logo2-black.png"} alt="Credens" className="h-6 w-auto object-contain opacity-90" />
+            </Link>
+            <div className="text-[13px] text-gray-500 dark:text-[#8a8f98] font-medium leading-relaxed mt-1">
+              <p>Founder: John Rex T. Partoza</p>
+              <p className="mt-1">© {new Date().getFullYear()} Credens. All rights reserved.</p>
+            </div>
           </div>
-          <a href="#" className="hover:text-black dark:hover:text-[#f4f4f5] transition-colors"><svg className="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/></svg></a>
-          <a href="#" className="hover:text-black dark:hover:text-[#f4f4f5] transition-colors"><svg className="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 10.054 10.054 0 01-3.127 1.184 4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></a>
-          <a href="#" className="hover:text-black dark:hover:text-[#f4f4f5] transition-colors"><Mail className="w-[18px] h-[18px] fill-current" /></a>
+
+          {/* Column 2: Quick Links */}
+          <div className="flex flex-col items-center md:items-start gap-3 col-span-1 text-center md:text-left">
+            <h4 className="text-[14px] font-bold text-gray-900 dark:text-white mb-2">Quick Links</h4>
+            <Link to="/about" className="text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors">About</Link>
+            <a href="#" className="text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors">FAQ's</a>
+            <a href="#" className="text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors">Pricing</a>
+            <a href="#" className="text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors">Contact</a>
+          </div>
+
+          {/* Column 3: Legal */}
+          <div className="flex flex-col items-center md:items-start gap-3 col-span-1 text-center md:text-left">
+            <h4 className="text-[14px] font-bold text-gray-900 dark:text-white mb-2">Legal</h4>
+            <a href="#" className="text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors">Privacy Policy</a>
+            <a href="#" className="text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors">Terms & Condition</a>
+          </div>
+
+          {/* Column 4: Need Help? */}
+          <div className="flex flex-col items-center md:items-start gap-3 col-span-1 text-center md:text-left">
+            <h4 className="text-[14px] font-bold text-gray-900 dark:text-white mb-2">Need Help?</h4>
+            <a href="mailto:support@credens.app" className="text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors break-all">
+              support@credens.app
+            </a>
+            <div className="flex items-center justify-center md:justify-start gap-4 mt-2">
+              <a href="#" aria-label="Facebook" className="text-gray-400 hover:text-black dark:text-gray-500 dark:hover:text-[#f4f4f5] transition-colors">
+                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/></svg>
+              </a>
+              <a href="#" aria-label="Instagram" className="text-gray-400 hover:text-black dark:text-gray-500 dark:hover:text-[#f4f4f5] transition-colors">
+                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd" /></svg>
+              </a>
+            </div>
+          </div>
         </div>
       </footer>
-    </div>
+      </div>
+    </BrowserRouter>
   );
 }
 

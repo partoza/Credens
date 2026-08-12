@@ -11,3 +11,12 @@
     @apply bg-white dark:bg-black text-black dark:text-white antialiased font-sans overflow-x-hidden transition-colors duration-300;
   }
 }
+
+@keyframes swing-logo {
+  0%, 100% {
+    transform: rotate(160deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+}
