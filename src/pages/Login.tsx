@@ -95,27 +95,39 @@ export default function Login() {
             <div className="flex flex-col items-start gap-2">
               <span className="text-[11px] font-bold tracking-[0.2em] text-gray-500 dark:text-gray-400 uppercase">THEME</span>
               <div className="flex items-center bg-white/5 dark:bg-gray-200/50 rounded-full p-1 border border-white/10 dark:border-gray-200 transition-colors duration-300">
-                <button
-                  onClick={() => setTheme('system')}
-                  className={`p-1.5 rounded-full transition-all cursor-pointer ${theme === 'system' ? 'bg-white/10 dark:bg-white dark:shadow-sm text-white dark:text-black' : 'text-white/40 hover:text-white/80 dark:text-gray-500 dark:hover:text-gray-900'}`}
-                  title="System Theme"
-                >
-                  <ComputerDesktopIcon className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setTheme('light')}
-                  className={`p-1.5 rounded-full transition-all cursor-pointer ${theme === 'light' ? 'bg-white/10 dark:bg-white dark:shadow-sm text-white dark:text-black' : 'text-white/40 hover:text-white/80 dark:text-gray-500 dark:hover:text-gray-900'}`}
-                  title="Light Theme"
-                >
-                  <SunIcon className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setTheme('dark')}
-                  className={`p-1.5 rounded-full transition-all cursor-pointer ${theme === 'dark' ? 'bg-white/10 dark:bg-white dark:shadow-sm text-white dark:text-black' : 'text-white/40 hover:text-white/80 dark:text-gray-500 dark:hover:text-gray-900'}`}
-                  title="Dark Theme"
-                >
-                  <MoonIcon className="w-4 h-4" />
-                </button>
+                <div className="relative group flex items-center justify-center">
+                  <button
+                    onClick={() => setTheme('system')}
+                    className={`p-1.5 rounded-full transition-all cursor-pointer ${theme === 'system' ? 'bg-white/10 dark:bg-white dark:shadow-sm text-white dark:text-black' : 'text-white/40 hover:text-white/80 dark:text-gray-500 dark:hover:text-gray-900'}`}
+                  >
+                    <ComputerDesktopIcon className="w-4 h-4" />
+                  </button>
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-white dark:bg-black text-black dark:text-white text-xs font-medium rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-lg">
+                    System
+                  </div>
+                </div>
+                <div className="relative group flex items-center justify-center">
+                  <button
+                    onClick={() => setTheme('light')}
+                    className={`p-1.5 rounded-full transition-all cursor-pointer ${theme === 'light' ? 'bg-white/10 dark:bg-white dark:shadow-sm text-white dark:text-black' : 'text-white/40 hover:text-white/80 dark:text-gray-500 dark:hover:text-gray-900'}`}
+                  >
+                    <SunIcon className="w-4 h-4" />
+                  </button>
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-white dark:bg-black text-black dark:text-white text-xs font-medium rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-lg">
+                    Light
+                  </div>
+                </div>
+                <div className="relative group flex items-center justify-center">
+                  <button
+                    onClick={() => setTheme('dark')}
+                    className={`p-1.5 rounded-full transition-all cursor-pointer ${theme === 'dark' ? 'bg-white/10 dark:bg-white dark:shadow-sm text-white dark:text-black' : 'text-white/40 hover:text-white/80 dark:text-gray-500 dark:hover:text-gray-900'}`}
+                  >
+                    <MoonIcon className="w-4 h-4" />
+                  </button>
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-white dark:bg-black text-black dark:text-white text-xs font-medium rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-lg">
+                    Dark
+                  </div>
+                </div>
               </div>
             </div>
             <div className="text-[13px] text-white/40 dark:text-gray-500 font-medium transition-colors duration-300">
