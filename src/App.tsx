@@ -5,9 +5,11 @@ import AboutPage from './pages/About';
 import FAQPage from './pages/FAQ';
 import PricingPage from './pages/Pricing';
 import LoginPage from './pages/Login';
+import SignInPage from './pages/SignIn';
+import ForgotPasswordPage from './pages/ForgotPassword';
 import { LayoutDashboard, Paintbrush, Briefcase, Nfc, ChevronRight, Mail, Quote, Code, Camera, Play, Trophy } from 'lucide-react';
 import { SunIcon, MoonIcon, ComputerDesktopIcon } from '@heroicons/react/24/solid';
-import { Navbar, NavBody, NavItems, MobileNav, MobileNavHeader, MobileNavMenu, MobileNavToggle, NavbarButton } from './components/ui/resizable-navbar';
+import { Navbar, NavBody, NavItems, MobileNav, MobileNavHeader, MobileNavMenu, MobileNavToggle } from './components/ui/resizable-navbar';
 
 function useIntersectionObserver() {
   const [isIntersecting, setIsIntersecting] = useState(false);
@@ -372,6 +374,20 @@ function AppContent() {
     { name: "Contact", link: "#" },
   ];
 
+  const isAuthPage = ['/getstarted', '/signin', '/forgot-password'].includes(location.pathname);
+
+  if (isAuthPage) {
+    return (
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/getstarted" element={<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}><LoginPage /></motion.div>} />
+          <Route path="/signin" element={<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}><SignInPage /></motion.div>} />
+          <Route path="/forgot-password" element={<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}><ForgotPasswordPage /></motion.div>} />
+        </Routes>
+      </AnimatePresence>
+    );
+  }
+
   return (
       <div className="min-h-screen bg-white dark:bg-[#0a0a0a] text-black dark:text-white font-sans selection:bg-black/10 dark:selection:bg-white/10 overflow-x-hidden flex flex-col transition-colors duration-500 relative">
       
@@ -413,8 +429,8 @@ function AppContent() {
             </div>
 
             <div className="flex items-center gap-2.5">
-              <Link to="/login" className="text-[14px] font-medium text-center bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-black dark:text-white px-4 py-2 rounded-lg hover:opacity-90 hover:scale-[0.98] active:scale-95 cursor-pointer transition-all duration-300 shadow-sm">Log In</Link>
-              <a href="#" className="text-[14px] font-medium text-center bg-black dark:bg-[#f4f4f5] text-white dark:text-black px-4 py-2 rounded-lg hover:opacity-90 hover:scale-[0.98] active:scale-95 cursor-pointer transition-all duration-300 shadow-sm">Sign Up</a>
+              <Link to="/" className="text-[14px] font-medium text-center bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-black dark:text-white px-4 py-2 rounded-lg hover:opacity-90 hover:scale-[0.98] active:scale-95 cursor-pointer transition-all duration-300 shadow-sm">Try Demo</Link>
+              <Link to="/getstarted" className="text-[14px] font-medium text-center bg-black dark:bg-[#f4f4f5] text-white dark:text-black px-4 py-2 rounded-lg hover:opacity-90 hover:scale-[0.98] active:scale-95 cursor-pointer transition-all duration-300 shadow-sm">Login</Link>
             </div>
           </div>
         </NavBody>
@@ -444,10 +460,8 @@ function AppContent() {
                 </Link>
               ))}
               <div className="h-[1px] w-full bg-black/5 dark:bg-white/5 my-1"></div>
-              <Link to="/login" className="text-[15px] font-medium bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-black dark:text-white text-center py-2.5 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition-colors" onClick={() => setMobileMenuOpen(false)}>Log In</Link>
-              <NavbarButton href="#" variant="dark" className="w-full py-2.5" onClick={() => setMobileMenuOpen(false)}>
-                Sign Up
-              </NavbarButton>
+              <Link to="/" className="text-[15px] font-medium bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-black dark:text-white text-center py-2.5 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition-colors" onClick={() => setMobileMenuOpen(false)}>Try Demo</Link>
+              <Link to="/getstarted" className="text-[15px] font-medium bg-black dark:bg-[#f4f4f5] text-white dark:text-black text-center py-2.5 rounded-lg hover:opacity-90 transition-all duration-300" onClick={() => setMobileMenuOpen(false)}>Login</Link>
             </div>
           </MobileNavMenu>
         </MobileNav>
@@ -459,7 +473,6 @@ function AppContent() {
         <Route path="/about" element={<motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.4 }} className="w-full flex justify-center"><AboutPage /></motion.div>} />
         <Route path="/faq" element={<motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.4 }} className="w-full flex justify-center"><FAQPage /></motion.div>} />
         <Route path="/pricing" element={<motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.4 }} className="w-full flex justify-center"><PricingPage /></motion.div>} />
-        <Route path="/login" element={<motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.4 }} className="w-full flex justify-center"><LoginPage /></motion.div>} />
         <Route path="/" element={
         <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.4 }} className="w-full max-w-7xl">
           
