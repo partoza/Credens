@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
 
-const inputClasses = "block w-full px-4 py-3 bg-gray-50/50 dark:bg-white/[0.02] border border-black/5 dark:border-white/5 rounded-xl text-[15px] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 focus:ring-1 focus:ring-black/20 dark:focus:ring-white/20 focus:border-black/20 dark:focus:border-white/20 transition-all shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)] dark:shadow-none outline-none";
-
 export default function GetStarted() {
   return (
     <>
