@@ -1,9 +1,13 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'motion/react';
 import AboutPage from './pages/About';
+import FAQPage from './pages/FAQ';
+import PricingPage from './pages/Pricing';
 import LoginPage from './pages/Login';
 import { LayoutDashboard, Paintbrush, Briefcase, Nfc, ChevronRight, Mail, Quote, Code, Camera, Play, Trophy } from 'lucide-react';
 import { SunIcon, MoonIcon, ComputerDesktopIcon } from '@heroicons/react/24/solid';
+import { Navbar, NavBody, NavItems, MobileNav, MobileNavHeader, MobileNavMenu, MobileNavToggle, NavbarButton } from './components/ui/resizable-navbar';
 
 function useIntersectionObserver() {
   const [isIntersecting, setIsIntersecting] = useState(false);
@@ -23,10 +27,9 @@ function useIntersectionObserver() {
   return [ref, isIntersecting] as const;
 }
 
-const FadeIn = ({ children, delay = 0, className = "" }: any) => {
-  const [ref, isVisible] = useIntersectionObserver();
+const FadeIn = ({ children, className = "" }: any) => {
   return (
-    <div ref={ref} className={`transition-all duration-[1200ms] ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+    <div className={className}>
       {children}
     </div>
   );
@@ -142,21 +145,32 @@ const HoloCard = () => {
   );
 };
 
-const FeatureKey = ({ icon, title, desc, width = "w-[240px]", delay = 0 }: any) => {
-  const [ref, isVisible] = useIntersectionObserver();
+const FeatureKey = ({ icon, title, desc, width = "w-[240px]" }: any) => {
   return (
     <div 
-      ref={ref}
-      className={`${width} h-[110px] relative rounded-[14px] border border-black/10 dark:border-white/10 bg-gray-50 dark:bg-[#0a0a0a] p-5 flex flex-col justify-between overflow-hidden group cursor-pointer hover:border-black/20 dark:hover:border-white/20 shadow-sm dark:shadow-none hover:shadow-md flex-shrink-0 transition-all duration-[1200ms] ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      className={`${width} h-[110px] relative rounded-[14px] p-[1.5px] flex-shrink-0 group cursor-pointer overflow-hidden`}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-black/5 to-transparent dark:from-white/5 dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      <div className="text-gray-500 dark:text-[#8a8f98] relative z-10 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">
-        {icon}
-      </div>
-      <div className="relative z-10 leading-snug">
-        <div className="text-[15px] sm:text-[16px] font-semibold text-black dark:text-[#f4f4f5]">{title}</div>
-        <div className="text-[13px] sm:text-[14px] text-gray-500 dark:text-[#8a8f98]">{desc}</div>
+      {/* Rotating border beam (Always visible) */}
+      <motion.div 
+        animate={{ rotate: 360 }}
+        transition={{ 
+          repeat: Infinity, 
+          duration: 4, 
+          ease: "linear" 
+        }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-[200%] bg-[conic-gradient(from_0deg,transparent_0_270deg,rgba(0,0,0,0.7)_360deg)] dark:bg-[conic-gradient(from_0deg,transparent_0_270deg,rgba(255,255,255,0.7)_360deg)] pointer-events-none"
+        style={{ transformOrigin: "center" }}
+      />
+      {/* Inner card */}
+      <div className="relative h-full w-full bg-gray-50 dark:bg-[#161616] rounded-[13px] border border-black/5 dark:border-white/5 p-5 flex flex-col justify-between overflow-hidden shadow-sm dark:shadow-none hover:shadow-md transition-colors duration-300">
+        <div className="absolute inset-0 bg-gradient-to-br from-black/5 via-transparent to-transparent dark:from-white/10 dark:via-transparent dark:to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+        <div className="text-gray-500 dark:text-[#8a8f98] relative z-10 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">
+          {icon}
+        </div>
+        <div className="relative z-10 leading-snug">
+          <div className="text-[15px] sm:text-[16px] font-semibold text-gray-900 dark:text-[#f4f4f5]">{title}</div>
+          <div className="text-[13px] sm:text-[14px] text-gray-500 dark:text-[#8a8f98]">{desc}</div>
+        </div>
       </div>
     </div>
   );
@@ -300,7 +314,15 @@ const AwardWidget = () => (
   </div>
 );
 
-function App() {
+const BASE_FEATURES = [
+  "For modern professionals",
+  "To ship digital portfolios",
+  "With zero code required"
+];
+// 10000 copies = 30000 items, enough to keep rolling for 20+ hours without running out
+const ROLLING_FEATURES = Array(10000).fill(BASE_FEATURES).flat();
+
+function AppContent() {
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'system');
@@ -309,7 +331,8 @@ function App() {
     localStorage.setItem('theme', theme);
   }, [theme]);
   const [activeFeature, setActiveFeature] = useState(0);
-  const [isSystemDark, setIsSystemDark] = useState(true);
+  const [isSystemDark, setIsSystemDark] = useState(window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const location = useLocation();
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -329,13 +352,11 @@ function App() {
     }
   }, [isDark]);
 
-  const baseFeatures = [
-    "For modern professionals",
-    "To ship digital portfolios",
-    "With zero code required"
-  ];
-  
-  const features = useMemo(() => Array(100).fill(baseFeatures).flat(), [baseFeatures]);
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const features = ROLLING_FEATURES;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -344,95 +365,103 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  const navItems = [
+    { name: "About", link: "/about" },
+    { name: "FAQ's", link: "/faq" },
+    { name: "Pricing", link: "/pricing" },
+    { name: "Contact", link: "#" },
+  ];
+
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-white dark:bg-[#0a0a0a] text-black dark:text-white font-sans selection:bg-black/10 dark:selection:bg-white/10 overflow-x-hidden flex flex-col">
+      <div className="min-h-screen bg-white dark:bg-[#0a0a0a] text-black dark:text-white font-sans selection:bg-black/10 dark:selection:bg-white/10 overflow-x-hidden flex flex-col transition-colors duration-500 relative">
       
-      {/* Navigation (super minimal) */}
-      <header className="sticky top-0 z-50 w-full bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-md border-b border-black/5 dark:border-white/5">
-        <nav className="flex items-center justify-between px-6 py-4 md:px-12 max-w-7xl mx-auto">
-        <div className="flex items-center gap-2">
-          <Link to="/">
-            <img src={isDark ? "/logo/logo2-white.png" : "/logo/logo2-black.png"} alt="Credens" className="h-7 w-auto object-contain" />
-          </Link>
-        </div>
-        <div className="hidden md:flex items-center gap-6 text-sm text-gray-500 dark:text-[#8a8f98] font-medium">
-          <Link to="/about" className="hover:text-black dark:hover:text-white transition-colors">About</Link>
-          <a href="#" className="hover:text-black dark:hover:text-white transition-colors">FAQ's</a>
-          <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Pricing</a>
-          <a href="#" className="hover:text-black dark:hover:text-white transition-colors">Contact</a>
-        </div>
-        <div className="flex items-center gap-4">
-          {/* Theme Dropdown */}
-          <div className="relative">
-            <button 
-              title="Toggle Theme"
-              onClick={() => setThemeDropdownOpen(!themeDropdownOpen)}
-              className="flex items-center gap-1.5 text-[13px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors cursor-pointer"
-            >
-              {theme === 'dark' ? <MoonIcon className="w-4 h-4" /> : theme === 'light' ? <SunIcon className="w-4 h-4" /> : <ComputerDesktopIcon className="w-4 h-4" />}
-              <span className="hidden sm:inline capitalize">{theme}</span>
-            </button>
-            
-            {themeDropdownOpen && (
-              <div className="absolute top-full right-0 mt-3 w-32 bg-white dark:bg-[#161616] border border-black/10 dark:border-white/10 rounded-lg shadow-2xl py-1 z-50">
-                <button onClick={() => { setTheme('light'); setThemeDropdownOpen(false); }} className="w-full flex items-center gap-2.5 px-3 py-1.5 text-[13px] text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-left">
-                  <SunIcon className="w-3.5 h-3.5" /> Light
-                </button>
-                <button onClick={() => { setTheme('dark'); setThemeDropdownOpen(false); }} className="w-full flex items-center gap-2.5 px-3 py-1.5 text-[13px] text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-left">
-                  <MoonIcon className="w-3.5 h-3.5" /> Dark
-                </button>
-                <button onClick={() => { setTheme('system'); setThemeDropdownOpen(false); }} className="w-full flex items-center gap-2.5 px-3 py-1.5 text-[13px] text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-left">
-                  <ComputerDesktopIcon className="w-3.5 h-3.5" /> System
-                </button>
-              </div>
-            )}
+      {/* Premium top gradient mask */}
+      <div className="fixed top-0 inset-x-0 h-32 bg-gradient-to-b from-white via-white/80 to-transparent dark:from-[#0a0a0a] dark:via-[#0a0a0a]/80 pointer-events-none z-[50]" />
+      <Navbar>
+        {/* Desktop Navbar */}
+        <NavBody>
+          <div className="flex items-center gap-2">
+            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <img src={isDark ? "/logo/logo2-white.png" : "/logo/logo2-black.png"} alt="Credens" className="h-8 w-auto object-contain" />
+            </Link>
           </div>
+          <NavItems items={navItems} />
+          
+          <div className="hidden lg:flex items-center gap-5">
+            <div className="relative">
+              <button 
+                title="Toggle Theme"
+                onClick={() => setThemeDropdownOpen(!themeDropdownOpen)}
+                className="flex items-center gap-1.5 text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors cursor-pointer"
+              >
+                {theme === 'dark' ? <MoonIcon className="w-4 h-4" /> : theme === 'light' ? <SunIcon className="w-4 h-4" /> : <ComputerDesktopIcon className="w-4 h-4" />}
+              </button>
+              
+              {themeDropdownOpen && (
+                <div className="absolute top-full right-0 mt-3 w-32 bg-white dark:bg-[#161616] border border-black/10 dark:border-white/10 rounded-lg shadow-2xl py-1 z-50">
+                  <button onClick={() => { setTheme('light'); setThemeDropdownOpen(false); }} className="w-full flex items-center gap-2.5 px-3 py-1.5 text-[13px] text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-left">
+                    <SunIcon className="w-3.5 h-3.5" /> Light
+                  </button>
+                  <button onClick={() => { setTheme('dark'); setThemeDropdownOpen(false); }} className="w-full flex items-center gap-2.5 px-3 py-1.5 text-[13px] text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-left">
+                    <MoonIcon className="w-3.5 h-3.5" /> Dark
+                  </button>
+                  <button onClick={() => { setTheme('system'); setThemeDropdownOpen(false); }} className="w-full flex items-center gap-2.5 px-3 py-1.5 text-[13px] text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-left">
+                    <ComputerDesktopIcon className="w-3.5 h-3.5" /> System
+                  </button>
+                </div>
+              )}
+            </div>
 
-          <div className="hidden md:flex items-center gap-3 pl-2 border-l border-black/10 dark:border-white/10">
-            <Link to="/login" className="text-[14px] font-medium bg-gray-100 dark:bg-white border border-gray-200 text-black px-4 py-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-50 transition-colors shadow-sm">Log In</Link>
-            <a href="#" className="text-[14px] font-medium bg-black dark:bg-[#111111] text-white border border-black/10 dark:border-white/10 px-4 py-1.5 rounded-md hover:bg-gray-800 dark:hover:bg-[#1a1a1a] transition-colors shadow-sm">Sign Up</a>
+            <div className="flex items-center gap-2.5">
+              <Link to="/login" className="text-[14px] font-medium text-center bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-black dark:text-white px-4 py-2 rounded-lg hover:opacity-90 hover:scale-[0.98] active:scale-95 cursor-pointer transition-all duration-300 shadow-sm">Log In</Link>
+              <a href="#" className="text-[14px] font-medium text-center bg-black dark:bg-[#f4f4f5] text-white dark:text-black px-4 py-2 rounded-lg hover:opacity-90 hover:scale-[0.98] active:scale-95 cursor-pointer transition-all duration-300 shadow-sm">Sign Up</a>
+            </div>
           </div>
+        </NavBody>
 
-          {/* Mobile Hamburger Menu */}
-          <button 
-            title={mobileMenuOpen ? "Close menu" : "Open menu"}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden flex items-center justify-center p-1.5 text-gray-500 hover:text-black dark:text-[#8a8f98] dark:hover:text-white transition-colors ml-1 cursor-pointer"
-          >
-            {mobileMenuOpen ? (
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
-              </svg>
-            )}
-          </button>
-        </div>
-      </nav>
-      
-      {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-[#0a0a0a] border-b border-black/5 dark:border-white/5 py-5 px-6 flex flex-col gap-4 shadow-xl z-50">
-          <Link to="/about" className="text-[15px] font-medium text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-white transition-colors" onClick={() => setMobileMenuOpen(false)}>About</Link>
-          <a href="#" className="text-[15px] font-medium text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-white transition-colors" onClick={() => setMobileMenuOpen(false)}>FAQ's</a>
-          <a href="#" className="text-[15px] font-medium text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-white transition-colors" onClick={() => setMobileMenuOpen(false)}>Pricing</a>
-          <a href="#" className="text-[15px] font-medium text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-white transition-colors" onClick={() => setMobileMenuOpen(false)}>Contact</a>
-          <div className="h-[1px] w-full bg-black/5 dark:bg-white/5 my-1"></div>
-          <Link to="/login" className="text-[15px] font-medium bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-black dark:text-white text-center py-2.5 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition-colors" onClick={() => setMobileMenuOpen(false)}>Log In</Link>
-          <a href="#" className="text-[15px] font-medium bg-black dark:bg-[#f4f4f5] text-white dark:text-black text-center py-2.5 rounded-lg hover:bg-gray-800 dark:hover:bg-white transition-colors shadow-sm" onClick={() => setMobileMenuOpen(false)}>Sign Up</a>
-        </div>
-      )}
-      </header>
+        {/* Mobile Navbar */}
+        <MobileNav>
+          <MobileNavHeader className="px-6 py-2">
+            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <img src={isDark ? "/logo/logo2-white.png" : "/logo/logo2-black.png"} alt="Credens" className="h-6 w-auto object-contain" />
+            </Link>
+            <div className="flex items-center gap-4">
+              <button 
+                title="Toggle Theme"
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="flex items-center text-gray-500 hover:text-black dark:text-[#8a8f98] dark:hover:text-white transition-colors cursor-pointer"
+              >
+                {isDark ? <SunIcon className="w-5 h-5" /> : <MoonIcon className="w-5 h-5" />}
+              </button>
+              <MobileNavToggle isOpen={mobileMenuOpen} onClick={() => setMobileMenuOpen(!mobileMenuOpen)} />
+            </div>
+          </MobileNavHeader>
+          <MobileNavMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)}>
+            <div className="flex flex-col gap-4 w-full">
+              {navItems.map((item, idx) => (
+                <Link key={idx} to={item.link} className="text-[15px] font-medium text-gray-600 dark:text-[#8a8f98] hover:text-black dark:hover:text-white transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                  {item.name}
+                </Link>
+              ))}
+              <div className="h-[1px] w-full bg-black/5 dark:bg-white/5 my-1"></div>
+              <Link to="/login" className="text-[15px] font-medium bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-black dark:text-white text-center py-2.5 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition-colors" onClick={() => setMobileMenuOpen(false)}>Log In</Link>
+              <NavbarButton href="#" variant="dark" className="w-full py-2.5" onClick={() => setMobileMenuOpen(false)}>
+                Sign Up
+              </NavbarButton>
+            </div>
+          </MobileNavMenu>
+        </MobileNav>
+      </Navbar>
 
-      <Routes>
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/login" element={<LoginPage />} />
+      <main className="flex-1 w-full flex flex-col items-center pt-24 md:pt-32 px-6 md:px-12">
+        <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+        <Route path="/about" element={<motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.4 }} className="w-full flex justify-center"><AboutPage /></motion.div>} />
+        <Route path="/faq" element={<motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.4 }} className="w-full flex justify-center"><FAQPage /></motion.div>} />
+        <Route path="/pricing" element={<motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.4 }} className="w-full flex justify-center"><PricingPage /></motion.div>} />
+        <Route path="/login" element={<motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.4 }} className="w-full flex justify-center"><LoginPage /></motion.div>} />
         <Route path="/" element={
-          <main className="flex flex-col items-center pt-10 md:pt-16 px-6 md:px-12">
-        <div className="w-full max-w-7xl">
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.4 }} className="w-full max-w-7xl">
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 w-full items-center mb-16 mt-4">
             {/* Left: Heading & Buttons */}
@@ -444,8 +473,8 @@ function App() {
                 Credens is a professional identity platform where users can create and manage a digital portfolio with a personalized NFC Card
               </p>
               <div className="flex items-center gap-3">
-                <a href="#" className="bg-black dark:bg-[#f4f4f5] text-white dark:text-black px-5 py-2.5 rounded-full text-[13px] font-semibold hover:bg-gray-800 dark:hover:bg-white transition-colors">Get Started</a>
-                <a href="#" className="bg-transparent border border-black/20 dark:border-white/20 text-gray-900 dark:text-[#f4f4f5] px-5 py-2.5 rounded-full text-[13px] font-medium hover:bg-black/5 dark:hover:bg-white/5 transition-colors">View Demo</a>
+                <a href="#" className="bg-black dark:bg-[#f4f4f5] text-white dark:text-black px-7 py-3.5 rounded-full text-[14px] sm:text-[15px] font-semibold hover:opacity-90 hover:scale-[0.98] active:scale-95 cursor-pointer transition-all duration-300 flex items-center justify-center gap-2 shadow-xl shadow-black/10 dark:shadow-white/5 group">Get Started</a>
+                <a href="#" className="bg-transparent border border-black/20 dark:border-white/20 text-gray-900 dark:text-[#f4f4f5] px-5 py-2.5 rounded-full text-[13px] font-medium hover:bg-black/5 dark:hover:bg-white/5 hover:scale-[0.98] active:scale-95 cursor-pointer transition-all duration-300">View Demo</a>
               </div>
             </div>
 
@@ -510,7 +539,7 @@ function App() {
                 </p>
               </FadeIn>
               <FadeIn delay={300}>
-                <button className="flex items-center gap-2.5 bg-black dark:bg-[#f4f4f5] text-white dark:text-black px-6 py-3 rounded-xl text-[14px] font-semibold hover:bg-gray-800 dark:hover:bg-white transition-colors shadow-sm">
+                <button className="flex items-center gap-2.5 bg-black dark:bg-[#f4f4f5] text-white dark:text-black px-6 py-3 rounded-xl text-[14px] font-semibold hover:opacity-90 hover:scale-[0.98] active:scale-95 cursor-pointer transition-all duration-300 shadow-sm">
                   <Play className="w-4 h-4 fill-current" />
                   Try Demo
                 </button>
@@ -558,7 +587,7 @@ function App() {
                   </p>
                 </FadeIn>
                 <FadeIn delay={300}>
-                  <button className="flex items-center gap-2.5 bg-black dark:bg-[#f4f4f5] text-white dark:text-black px-6 py-3 rounded-xl text-[14px] font-semibold hover:bg-gray-800 dark:hover:bg-white transition-colors shadow-sm">
+                  <button className="flex items-center gap-2.5 bg-black dark:bg-[#f4f4f5] text-white dark:text-black px-6 py-3 rounded-xl text-[14px] font-semibold hover:opacity-90 hover:scale-[0.98] active:scale-95 cursor-pointer transition-all duration-300 shadow-sm">
                     <Nfc className="w-4 h-4" />
                     Get Card
                   </button>
@@ -677,10 +706,11 @@ function App() {
             </div>
 
           </div>
-        </div>
-      </main>
+        </motion.div>
       } />
       </Routes>
+      </AnimatePresence>
+      </main>
 
       {/* Footer */}
       <footer className="w-full max-w-7xl mx-auto px-6 md:px-12 py-12 mt-12 border-t border-black/5 dark:border-white/5">
@@ -701,8 +731,8 @@ function App() {
           <div className="flex flex-col items-center md:items-start gap-3 col-span-1 text-center md:text-left">
             <h4 className="text-[14px] font-bold text-gray-900 dark:text-white mb-2">Quick Links</h4>
             <Link to="/about" className="text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors">About</Link>
-            <a href="#" className="text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors">FAQ's</a>
-            <a href="#" className="text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors">Pricing</a>
+            <Link to="/faq" className="text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors">FAQ's</Link>
+            <Link to="/pricing" className="text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors">Pricing</Link>
             <a href="#" className="text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] hover:text-black dark:hover:text-[#f4f4f5] transition-colors">Contact</a>
           </div>
 
@@ -731,8 +761,13 @@ function App() {
         </div>
       </footer>
       </div>
-    </BrowserRouter>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  );
+}
