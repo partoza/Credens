@@ -7,6 +7,7 @@ import PricingPage from './pages/Pricing';
 import LoginPage from './pages/Login';
 import SignInPage from './pages/SignIn';
 import ForgotPasswordPage from './pages/ForgotPassword';
+import Demo from './pages/Demo';
 import { LayoutDashboard, Paintbrush, Briefcase, Nfc, ChevronRight, Mail, Quote, Code, Camera, Play, Trophy } from 'lucide-react';
 import { SunIcon, MoonIcon, ComputerDesktopIcon } from '@heroicons/react/24/solid';
 import { Navbar, NavBody, NavItems, MobileNav, MobileNavHeader, MobileNavMenu, MobileNavToggle } from './components/ui/resizable-navbar';
@@ -374,15 +375,16 @@ function AppContent() {
     { name: "Contact", link: "#" },
   ];
 
-  const isAuthPage = ['/getstarted', '/signin', '/forgot-password'].includes(location.pathname);
+  const isStandalonePage = location.pathname.startsWith('/auth') || location.pathname === '/demo';
 
-  if (isAuthPage) {
+  if (isStandalonePage) {
     return (
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
-          <Route path="/getstarted" element={<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}><LoginPage /></motion.div>} />
-          <Route path="/signin" element={<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}><SignInPage /></motion.div>} />
-          <Route path="/forgot-password" element={<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}><ForgotPasswordPage /></motion.div>} />
+          <Route path="/auth/getstarted" element={<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}><LoginPage /></motion.div>} />
+          <Route path="/auth/signin" element={<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}><SignInPage /></motion.div>} />
+          <Route path="/auth/forgotpassword" element={<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}><ForgotPasswordPage /></motion.div>} />
+          <Route path="/demo" element={<Demo />} />
         </Routes>
       </AnimatePresence>
     );
@@ -429,8 +431,7 @@ function AppContent() {
             </div>
 
             <div className="flex items-center gap-2.5">
-              <Link to="/" className="text-[14px] font-medium text-center bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-black dark:text-white px-4 py-2 rounded-lg hover:opacity-90 hover:scale-[0.98] active:scale-95 cursor-pointer transition-all duration-300 shadow-sm">Try Demo</Link>
-              <Link to="/getstarted" className="text-[14px] font-medium text-center bg-black dark:bg-[#f4f4f5] text-white dark:text-black px-4 py-2 rounded-lg hover:opacity-90 hover:scale-[0.98] active:scale-95 cursor-pointer transition-all duration-300 shadow-sm">Login</Link>
+              <Link to="/auth/getstarted" className="text-[14px] font-medium text-center bg-black dark:bg-[#f4f4f5] text-white dark:text-black px-4 py-2 rounded-lg hover:opacity-90 hover:scale-[0.98] active:scale-95 cursor-pointer transition-all duration-300 shadow-sm">Login</Link>
             </div>
           </div>
         </NavBody>
@@ -460,8 +461,7 @@ function AppContent() {
                 </Link>
               ))}
               <div className="h-[1px] w-full bg-black/5 dark:bg-white/5 my-1"></div>
-              <Link to="/" className="text-[15px] font-medium bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-black dark:text-white text-center py-2.5 rounded-lg hover:bg-gray-200 dark:hover:bg-white/10 transition-colors" onClick={() => setMobileMenuOpen(false)}>Try Demo</Link>
-              <Link to="/getstarted" className="text-[15px] font-medium bg-black dark:bg-[#f4f4f5] text-white dark:text-black text-center py-2.5 rounded-lg hover:opacity-90 transition-all duration-300" onClick={() => setMobileMenuOpen(false)}>Login</Link>
+              <Link to="/auth/getstarted" className="text-[15px] font-medium bg-black dark:bg-[#f4f4f5] text-white dark:text-black text-center py-2.5 rounded-lg hover:opacity-90 transition-all duration-300" onClick={() => setMobileMenuOpen(false)}>Login</Link>
             </div>
           </MobileNavMenu>
         </MobileNav>

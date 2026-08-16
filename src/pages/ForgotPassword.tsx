@@ -33,7 +33,7 @@ export default function ForgotPassword() {
   return (
     <div className="fixed inset-0 z-[100] bg-white dark:bg-[#0a0a0a] flex flex-col md:flex-row overflow-y-auto overflow-x-hidden font-sans">
 
-      <Link to="/signin" className="md:hidden absolute top-6 left-6 z-10 flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
+      <Link to="/auth/signin" className="md:hidden absolute top-6 left-6 z-10 flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back
       </Link>
 
@@ -58,7 +58,7 @@ export default function ForgotPassword() {
           <p className="text-[17px] text-white/60 dark:text-gray-600 font-medium leading-relaxed max-w-md mb-8">
             Enter the email address associated with your Credens account and we'll send you a secure reset link.
           </p>
-          <Link to="/signin" className="group inline-flex items-center gap-2 py-2 text-[14px] font-medium text-white/80 hover:text-white dark:text-gray-600 dark:hover:text-black transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer">
+          <Link to="/auth/signin" className="group inline-flex items-center gap-2 py-2 text-[14px] font-medium text-white/80 hover:text-white dark:text-gray-600 dark:hover:text-black transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer">
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" /> Back to Sign in
           </Link>
         </div>
@@ -97,7 +97,7 @@ export default function ForgotPassword() {
               <p className="text-[15px] font-medium text-gray-500 dark:text-[#8a8f98] max-w-sm">
                 We sent a password reset link to <span className="text-black dark:text-white font-semibold">{email}</span>. Check your inbox and follow the instructions.
               </p>
-              <Link to="/signin" className="mt-6 text-[14px] font-medium text-black dark:text-white hover:underline">
+              <Link to="/auth/signin" className="mt-6 text-[14px] font-medium text-black dark:text-white hover:underline">
                 Back to Sign in
               </Link>
             </div>
@@ -125,7 +125,7 @@ export default function ForgotPassword() {
 
               <p className="text-[14px] font-medium text-gray-500 dark:text-[#8a8f98] text-center">
                 Remember your password?{' '}
-                <Link to="/signin" className="font-semibold text-black dark:text-white hover:underline transition-all">Sign in</Link>
+                <Link to="/auth/signin" className="font-semibold text-black dark:text-white hover:underline transition-all">Sign in</Link>
               </p>
             </>
           )}
