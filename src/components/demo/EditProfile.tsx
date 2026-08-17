@@ -1,8 +1,4 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
 import { UserCircle, Upload, Save, Globe, Smartphone, Mail, Link as LinkIcon, Plus, Trash2, Fingerprint, MapPin, Calendar } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
@@ -125,6 +121,7 @@ export default function EditProfile({ user }: { user?: any }) {
   };
 
     const cardClasses = "bg-white dark:bg-[#0c0c0c] rounded-xl border border-gray-200/80 dark:border-[#1e1e1e] transition-all duration-200 hover:border-gray-300 dark:hover:border-[#2a2a2a] overflow-hidden";
+    const inputClasses = "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50";
 
   return (
     <div className="max-w-[1400px] mx-auto p-6 md:p-8 animate-in fade-in duration-500 pb-20">

@@ -1,8 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
+import { Card } from "@/components/ui/card"
 import { useState } from 'react';
 import { 
   Plus, Trash2, Edit2, LayoutDashboard, Award, Briefcase, 
@@ -17,6 +14,7 @@ type Education = { id: string, degree: string, school: string, year: string };
 type Other = { id: string, name: string, type: 'skill' | 'award' };
 
 export default function ManageCredentials() {
+  const inputClasses = "flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50";
   const [activeSection, setActiveSection] = useState<'projects' | 'certificates' | 'experience' | 'education' | 'other'>('projects');
 
   // --- State ---
